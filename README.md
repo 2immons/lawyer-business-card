@@ -1,40 +1,33 @@
 # lawyer-business-card
 
-This template should help get you started developing with Vue 3 in Vite.
+Клиентская часть сайта-визитки юриста.
+WIP
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Инициализация проекта
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Компиляция и запуск в режиме dev с hot-reload
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Компиляция в режиме prod
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Запустить Unit Tests с [Vitest](https://vitest.dev/)
 
 ```sh
 npm run test:unit
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Запустить линтер с [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
