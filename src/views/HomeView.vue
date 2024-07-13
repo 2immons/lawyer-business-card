@@ -11,15 +11,10 @@ import AboutSection from "@/components/AboutSection.vue";
 <template>
   <PageHeader />
   <main>
-    <div class="container">
-      <IntroSection />
-      <hr>
-      <ServicesSection />
-      <hr>
-      <PaymentSection />
-      <hr>
-      <AboutSection />
-    </div>
+    <IntroSection />
+    <AboutSection />
+    <ServicesSection />
+    <PaymentSection />
   </main>
   <PageFooter />
 </template>
