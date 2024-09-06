@@ -97,9 +97,7 @@ const toggleServicesVisibility = (service) => {
 
 <style lang="less" scoped>
 .section--services{
-  position: relative;
-  display: grid;
-  grid-template-columns: 5fr 3fr;
+  display: flex;
   justify-content: center;
   background: var(--vt-c-mywhite);
   color: white;
@@ -119,7 +117,7 @@ const toggleServicesVisibility = (service) => {
 }
 
 .bg-part{
-  z-index: -1;
+  width: 30%;
   height: 100%;
   background: var(--vt-c-white-soft);
 }
@@ -143,7 +141,7 @@ const toggleServicesVisibility = (service) => {
 }
 
 .services-wrapper {
-  width: 90%;
+  width: 100%;
   display: grid;
   grid-template-columns: 4fr 5fr;
 }

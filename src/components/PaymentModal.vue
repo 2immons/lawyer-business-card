@@ -8,7 +8,7 @@
 
         <div class="form-component form-component--name">
           <p>Ваше имя:</p>
-          <input type="text" class="input-field" placeholder="Иван Иванович">
+          <input type="text" class="input-field" v-model="regData.name" placeholder="Иван Иванович">
         </div>
 
         <div class="form-component form-component--city-select">
@@ -36,11 +36,11 @@
         <div class="form-component form-component--signup-wrapper" v-show="isSignupMode">
           <div class="form-component form-component--signup-field">
             <p>Номер телефона:</p>
-            <input type="tel" v-model="login" class="input-field" placeholder="89999999999">
+            <input type="tel" v-model="regData.login" class="input-field" placeholder="89999999999">
           </div>
           <div class="form-component form-component--signup-field">
             <p>Пароль:</p>
-            <input type="text" v-model="password" class="input-field" placeholder="Пароль...">
+            <input type="text" v-model="regData.password" class="input-field" placeholder="Пароль...">
           </div>
           <div class="form-component form-component--signup-field">
             <p>Подтвердите пароль:</p>
@@ -151,8 +151,11 @@ const clientTask = ref('')
 // const clientName = ref('')
 // const clientCity = ref('')
 
-const password = ref('')
-const login = ref('')
+const regData = ref({
+  password: '',
+  login: '',
+  name: ''
+})
 
 const clientId = ref(1)
 
@@ -165,9 +168,10 @@ const order = ref({
 const submitForm = async () => {
   if (isSignupMode.value) {
     try {
-      await usersStoreInstance.createUser(login.value, password.value)
+      await usersStoreInstance.createUser(regData)
     } catch (error) {
       console.error(error)
+      return
     }
   }
   try {

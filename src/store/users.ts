@@ -6,40 +6,55 @@ import Cookies from 'js-cookie'
 
 export const usersStore = defineStore('users', {
     state: () => ({
-
+        displayName: Cookies.get('display_name'),
     }),
 
     actions: {
-        async createUser(login, password) {
+        setCookies(responseData) {
+            Cookies.set("access_token", responseData.access_token)
+            Cookies.set('token_expiration', responseData.expires_in)
+            Cookies.set('display_name', responseData.display_name)
+            this.displayName = responseData.display_name;
+        },
+        clearCookies() {
+            Cookies.remove("access_token")
+            Cookies.remove('token_expiration')
+            Cookies.remove('display_name')
+            this.displayName = '';
+        },
+
+        async logout() {
+            this.clearCookies()
+        },
+
+        async createUser(regData) {
             const response = await axios.post(config.backendURL + '/auth/signup', {
-                login: login,
-                password: password,
-                withCredentials: true
-            });
+                login: regData.login,
+                password: regData.password,
+                name: regData.name
+            })
 
             if (response.status !== 201) {
                 throw new Error("Не удалось создать пользователя. Неправильный статус ответа от сервера: " + response.status)
             }
 
-            Cookies.set("access_token", response.data.access_token)
-            Cookies.set('token_expiration', response.data.expires_in)
-            console.log(Cookies.get('access_token'))
+            this.setCookies(response.data)
         },
 
-        async loginUser(login, password) {
-            const response = await axios.post(config.backendURL + '/auth/login', {
-                login: login,
-                password: password,
-                withCredentials: true
+        async loginUser(loginData) {
+            const response = await axios.get(config.backendURL + '/auth/login', {
+                params: {
+                    login: loginData.login,
+                    password: loginData.password
+                }
             });
+
 
             if (response.status !== 200) {
                 throw new Error("Не удалось авторизоваться пользователя. Неправильный статус ответа от сервера: " + response.status)
             }
 
-            Cookies.set("access_token", response.data.access_token)
-            Cookies.set('token_expiration', response.data.expires_in)
-            console.log(Cookies.get('access_token'))
+            this.setCookies(response.data)
         },
     },
 

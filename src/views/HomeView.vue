@@ -16,7 +16,6 @@ import AboutSection from "@/components/AboutSection.vue";
     <ServicesSection />
 <!--    <PaymentSection />-->
   </main>
-  <PageFooter />
 </template>
 
 <style lang="less">

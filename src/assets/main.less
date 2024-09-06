@@ -6,6 +6,9 @@
 }
 
 .container {
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
   margin: 0 auto;
   max-width: 1380px;
   width: 90%;
@@ -22,15 +25,19 @@ hr{
 
 section {
   width: 100%;
-  max-height: 1200px;
-  //height: calc(100vh - 80px);
+}
+
+.section-content {
+  padding: 50px 0;
 }
 
 .section-title {
   font-size: 100px;
   font-weight: 600;
+  line-height: 85px;
   text-transform: uppercase;
   letter-spacing: 3px;
+  margin-bottom: 40px;
 }
 
 a{
@@ -57,21 +64,14 @@ a{
   background: #555;
 }
 
-@media screen and (max-width: 1500px) {
-  .container {
-    max-width: 1200px;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .container {
-    max-width: 650px;
-  }
-}
-
-
-@media screen and (max-width: 620px) {
+@media (max-width: 1000px) {
   .section-title {
-    font-size: 45px;
+    font-size: 70px;
+  }
+}
+
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 50px;
   }
 }

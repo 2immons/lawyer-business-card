@@ -217,6 +217,15 @@ const openPaymentModal = (service) => {
   isPaymentModalVisible = true
 }
 
+const searchText = ref('')
+
+// const filteredServices = ref([...services])
+
+const handleSearch = () => {
+  if (searchText.value === '') return
+  console.log(searchText.value)
+}
+
 const toggleServicesVisibility = (service) => {
   // Если нажали на включенную
   if (visibleServices.value === service.examples) {
@@ -245,45 +254,49 @@ const toggleServicesVisibility = (service) => {
 <template>
   <section class="section section--services" id="services">
     <PaymentModal :is-payment-modal-visible="isPaymentModalVisible" :service="selectedService" @cancel="isPaymentModalVisible = false" @payment="console.log(2)" />
-    <div class="bg-part">
-      <div class="bg-picture-wrapper">
-        <img class="bg-picture" src="../assets/photo1.jpg" alt="">
-      </div>
-    </div>
-    <div class="container container--services">
-      <div class="empty"></div>
-      <div class="content-part">
-        <div class="section-title-wrapper">
-          <h2 class="section-title">Виды услуг</h2>
+    <div class="container">
+      <div class="section-content section-content--services">
+        <div class="bg-picture-wrapper">
+          <img class="bg-picture" src="../assets/photo1.jpg" alt="">
         </div>
-        <div class="services-wrapper">
-          <div class="categories">
-            <div class="service"
-                 v-for="service in services"
-                 :key="service.id">
-              <button
-                :class="{'category-item__btn': true, 'active': service.visible}"
-                @click="toggleServicesVisibility(service)">
-                {{ service.title }}
-              </button>
-            </div>
+        <div class="content-part">
+          <div class="section-title-wrapper">
+            <h2 class="section-title">Услуги</h2>
           </div>
-          <Transition name="slide-fade">
-            <div class="services" v-if="visibleServices.length > 0">
+          <div class="search-wrapper">
+            <input type="text" class="service-search" placeholder="Введите название услуги..."
+                   @input="handleSearch"
+                   v-model="searchText">
+          </div>
+          <div class="services-wrapper">
+            <div class="categories">
               <div class="service"
-                   v-for="service in visibleServices"
+                   v-for="service in services"
                    :key="service.id">
-                <button class="service-wrapper" @click="openPaymentModal(service)">
-                  <span class="service-item__subtitle">
-                    {{ service.subtitle }}
-                  </span>
-                  <span class="service-item__price">
-                    от {{ service.price }} руб.
-                  </span>
+                <button
+                  :class="{'category-item__btn': true, 'active': service.visible}"
+                  @click="toggleServicesVisibility(service)">
+                  {{ service.title }}
                 </button>
               </div>
             </div>
-          </Transition>
+            <Transition name="slide-fade">
+              <div class="services" v-if="visibleServices.length > 0">
+                <div class="service"
+                     v-for="service in visibleServices"
+                     :key="service.id">
+                  <button class="service-wrapper" @click="openPaymentModal(service)">
+                <span class="service-item__subtitle">
+                  {{ service.subtitle }}
+                </span>
+                    <span class="service-item__price">
+                  от {{ service.price }} руб.
+                </span>
+                  </button>
+                </div>
+              </div>
+            </Transition>
+          </div>
         </div>
       </div>
     </div>
@@ -292,50 +305,37 @@ const toggleServicesVisibility = (service) => {
 
 <style lang="less" scoped>
 .section--services{
-  position: relative;
-  display: grid;
-  grid-template-columns: 2.4fr 5fr;
   justify-content: center;
   background: var(--vt-c-white-mute);
   color: white;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: fit-content;
 }
 
-.container-services {
-  position: absolute;
-  justify-self: end;
-  justify-content: center;
-  background: var(--vt-c-white-mute);
-  padding: 50px 0 50px 0;
-  height: 100%;
-  width: 65%;
-}
-
-.bg-part{
-  z-index: 1;
-  align-self: start;
-  height: calc(100vh - 80px);
-  background: var(--vt-c-mywhite);
-  overflow: hidden;
+.section-content--services {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
 }
 
 .bg-picture-wrapper {
   z-index: 1;
   height: 100%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 3% 0 0;
 }
 
 .bg-picture {
   z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Масштабирует изображение так, чтобы оно покрывало весь контейнер, сохраняя пропорции */
+  object-fit: cover;
+  overflow: hidden; /* Масштабирует изображение так, чтобы оно покрывало весь контейнер, сохраняя пропорции */
 }
 
 .content-part {
   height: 100%;
-  padding: 0 3% 0 4.5%;
 }
 
 .services {
@@ -343,10 +343,23 @@ const toggleServicesVisibility = (service) => {
   overflow-y: scroll;
 }
 
+.search-wrapper {
+  margin: 30px 0;
+  width: 100%;
+}
+
+.service-search {
+  min-width: 300px;
+  padding: 5px 3px;
+  font-size: 14px;
+  width: 70%;
+  height: 35px;
+}
+
 .services-wrapper {
-  width: 90%;
+  width: 100%;
   display: grid;
-  grid-template-columns: 7fr 5fr;
+  grid-template-columns: 6fr 5fr;
   color: #49505f;
 }
 
@@ -370,6 +383,10 @@ const toggleServicesVisibility = (service) => {
   margin-bottom: 5px;
 }
 
+.categories {
+  max-width: 395px;
+}
+
 .category-item__btn {
   color: inherit;
   background: transparent;
@@ -381,7 +398,8 @@ const toggleServicesVisibility = (service) => {
   font-weight: 300;
   transition: font-weight 0.3s ease;
   position: relative;
-  text-align: left;
+  text-align: start;
+  white-space: pre-wrap;
 }
 
 .category-item__btn::after {
@@ -429,13 +447,28 @@ const toggleServicesVisibility = (service) => {
   opacity: 0;
 }
 
-@media screen and (max-width: 1500px) {
-  .bg-picture {
-    width: 100%;
+@media screen and (max-width: 1000px) {
+  .container--services {
+    background: none;
   }
-}
 
-@media screen and (max-width: 850px) {
+  .section-content--services {
+    grid-template-columns: 1fr
+  }
 
+  .about-wrapper {
+    padding: 0;
+  }
+
+  .section--services {
+    background: rgb(52, 59, 73);
+    background: linear-gradient(115deg, rgba(242,242,242,1) 0%, rgba(242,242,242,0.9444152661064426) 50%, rgba(0,212,255,0.00043767507002800965) 100%), url("/src/assets/photo1.jpg");
+    background-size: cover;
+    background-position: right;
+  }
+
+  .bg-picture-wrapper {
+    display: none;
+  }
 }
 </style>
